@@ -1,0 +1,60 @@
+
+#text {
+    font-family: SansSerif, serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+#log-div {
+    display: grid;
+    place-items: center;
+}
+
+#log-sub {
+    border: 1px #afafaf solid;
+    width: fit-content;
+    height: fit-content;
+    margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: hsl(0, 0%, 60%) 0 0 12px;
+}
+
+#log-div ul{
+    border-left: 4px solid grey;
+    list-style: none;
+}
+
+li #circle{
+    display: grid;
+    place-items: center;
+    width: 12px;
+    height: 10px;
+    background-color: black;
+    border-radius: 50%;
+    position: absolute;
+    left: 41%;
+    margin-left: 7px;
+
+}
+
+li {
+    list-style: none;
+}
+
+li:nth-child(odd){
+    float: left;
+    clear: right;
+}
+
+li:nth-child(even){
+    float: right;
+    clear: left;
+}
+
+#date {
+    font-size: 13px;
+
+}
