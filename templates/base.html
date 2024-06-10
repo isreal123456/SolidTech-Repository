@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    {% load static %}
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+
+    {% block title %}
+
+    {% endblock %}
+
+</head>
+
+<body style="background-color: #E6E6FA;">
+{% load mptt_tags %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="dropdown container-fluid">
+        <a class="navbar-brand" href="">SOLID TECH</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                </li>
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Add
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                            <li><a class="dropdown-item" href="{% url 'createproduct' %}">Add Product</a></li>
+                            <li><a class="dropdown-item" href="{% url 'createcategory' %}">Add Category</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+
+
+
+
+                {% if navbar_categories %}
+                    <li class="nav-item dropdown">
+                        <a class="test nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+
+                            {% recursetree navbar_categories %}
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'listcategory' node.pk %}"
+                                       class="test">{{ node.name }}</a>
+                                </li>
+                            {% endrecursetree %}
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Categories</a>
+                    </li>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'incoming' %}">Incoming Product</a>
+                    </li>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'badproduct' %}">Bad Product</a>
+                    </li>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'createorder' %}">Make Order</a>
+                    </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'searchorders' %}">Orders</a>
+                </li>
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="{% url 'searchlog' %}">Log</a>#}
+{#                </li>#}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'log' %}">Logs</a>
+                </li>
+
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+                    </li>
+                {% endif %}
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+{% block content %}
+{% endblock %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
+
+
+{#{% recursetree navbar_categories %}#}
+{#        <li class="dropdown-submenu test nav-item dropdown">#}
+{##}
+{#            <a href="" class="test">{{ node.name }}</a>#}
+{#            {% if not node.is_leaf_node %}#}
+{#          <ul class="dropdown-submenu" aria-labelledby="navbarScrollingDropdown">#}
+{#            <li><a class="test dropdown-item" href="#"  href="{% url 'list' node.pk %}">{{ children }}</a>#}
+{#          </li>#}
+{#          </ul>#}
+{#        {% endif %}#}
+{##}
+{#          </li>#}
+{#            {% endrecursetree %}#}
