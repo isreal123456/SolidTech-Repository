@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load mptt_tags %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    {% load static %}
+    {% block title %}
+        <link rel="stylesheet" href="{% static 'css/list.css' %}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+              crossorigin="anonymous">
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+    <div class="main-cointainer">
+        <div style="padding-top: 30px;">
+            <h1 class="text">Products in {{ products.name }}</h1>
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                <tr>
+                    <th>S/N</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Bad Product Quantity</th>
+                    <th scope="col">Availability</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tb>
+                        <a href="{% url 'createorder' %}"><button type="button" class="btn btn-outline-secondary">Place order</button></a>
+
+                    {% for product in products.get_products %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ product.name|title }}</td>
+                            <td>{{ product.price }}</td>
+                            <td>{{ product.quantity }}</td>
+                            <td>
+                                {% drilldown_tree_for_node product.category as subcategory %}
+                                {% for node,structure in subcategory|tree_info %}
+                                    {% if structure.new_level %}
+                                        <ul>
+                                        <li>{% else %}</li>
+                                        <li> {% endif %}
+                                {% if node == category %}
+                                    <strong>{{ node.name|title }}</strong>
+                                {% else %}
+                                    {{ node.name|title }}
+                                {% endif %}
+                                {% for level in structure.closed_levels %}</li></ul>{% endfor %}
+                                {% endfor %}
+                            </td>
+
+                            <td>{{product.bad_product_quantity}}</td>
+
+                            {% if product.availability %}
+                                <td><input type="checkbox" checked disabled></td>
+                            {% else %}
+                                <td><input type="checkbox" disabled></td>
+                            {% endif %}
+                        </tr>
+
+                    {% endfor %}
+                </tb>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+</body>
+</html>
